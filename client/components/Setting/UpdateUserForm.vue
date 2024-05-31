@@ -38,3 +38,8 @@ async function updatePassword() {
     </fieldset>
   </form>
 </template>
+<style>
+.pure-form legend {
+  border-bottom: 1px solid #654321;
+}
+</style>

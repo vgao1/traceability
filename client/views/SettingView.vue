@@ -2,17 +2,14 @@
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
-import { fetchy } from "@/utils/fetchy";
 import { onBeforeMount, ref } from "vue";
 import UpdateUserForm from "../components/Setting/UpdateUserForm.vue";
 
 const { currentUsername } = storeToRefs(useUserStore());
 const { logoutUser, deleteUser } = useUserStore();
 let loaded = ref(false);
-let isDataProvider = ref(false);
 
 onBeforeMount(async () => {
-  await checkDataProvider();
   loaded.value = true;
 });
 
@@ -25,35 +22,6 @@ async function delete_() {
   await deleteUser();
   void router.push({ name: "Home" });
 }
-
-async function checkDataProvider() {
-  try {
-    isDataProvider.value = await fetchy(`/api/dataProvider/${currentUsername.value}`, "GET");
-    return;
-  } catch {
-    return;
-  }
-}
-
-async function processRequest() {
-  try {
-    await fetchy(`/api/dataProvider`, "POST", {
-      body: { username: currentUsername.value },
-    });
-    return;
-  } catch {
-    return;
-  }
-}
-
-async function processResponse() {
-  try {
-    await fetchy(`/api/dataRecipientAdmin`, "POST");
-    return;
-  } catch {
-    return;
-  }
-}
 </script>
 
 <template>
@@ -62,9 +30,7 @@ async function processResponse() {
   </div>
 
   <main class="column">
-    <button v-if="isDataProvider" class="pure-button" id="process-request-btn" @click="processRequest">Process Data Requests</button>
-    <button v-if="currentUsername === 'admin'" class="pure-button" id="process-response-btn" @click="processResponse">Process Data Responses</button>
-    <button class="pure-button pure-button-primary" @click="logout">Logout</button>
+    <button class="pure-button pure-button-primary" id="logout-btn" @click="logout">Logout</button>
     <button class="button-error pure-button" @click="delete_">Delete User</button>
     <UpdateUserForm />
   </main>
@@ -73,7 +39,7 @@ async function processResponse() {
 <style scoped>
 h1 {
   text-align: center;
-  background-color: #156b12;
+  background-color: #000080;
   color: white;
   padding: 12px;
   margin: 0;
@@ -83,7 +49,7 @@ h1 {
 }
 
 .column {
-  background-color: #fcfbe1;
+  background-color: #f5deb3;
   background-size: cover;
 }
 
@@ -96,8 +62,7 @@ h1 {
   margin-bottom: 0px;
 }
 
-#process-request-btn,
-#process-response-btn {
+#logout-btn {
   margin-top: 30px;
 }
 </style>
