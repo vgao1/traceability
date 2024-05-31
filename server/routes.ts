@@ -1,5 +1,5 @@
 import { Router, getExpressRouter } from "./framework/router";
-import { User, WebSession } from "./app";
+import { User, WebSession, Traceability } from "./app";
 import { UserDoc } from "./concepts/user";
 import { WebSessionDoc } from "./concepts/websession";
 
@@ -50,6 +50,12 @@ class Routes {
   async logOut(session: WebSessionDoc) {
     WebSession.end(session);
     return { msg: "Logged out!" };
+  }
+
+  @Router.get("/traceabilityRecords")
+  async getRecords(session: WebSessionDoc) {
+    const user = WebSession.getUser(session);
+    return Traceability.getTraceabilityRecords(user);
   }
 }
 

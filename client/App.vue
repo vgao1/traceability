@@ -25,14 +25,14 @@ onBeforeMount(async () => {
   <header>
     <nav>
       <div class="title">
-        <img src="@/assets/images/logo.png" />
+        <img src="@/assets/images/logo.svg" />
         <RouterLink :to="{ name: 'Home' }">
-          <h1>Traceability Dashboard</h1>
+          <h1>Traceability Records</h1>
         </RouterLink>
       </div>
       <ul>
-        <li>
-          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> <b> HOME </b> </RouterLink>
+        <li v-if="isLoggedIn">
+          <RouterLink :to="{ name: 'Records' }" :class="{ underline: currentRouteName == 'Records' }"> <b>HOME </b></RouterLink>
         </li>
         <li v-if="isLoggedIn">
           <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> <b>SETTINGS </b></RouterLink>
@@ -54,7 +54,7 @@ onBeforeMount(async () => {
 
 nav {
   padding: 1em 2em;
-  background-color: #caedce;
+  background-color: #89cff0;
   display: flex;
   align-items: center;
 }
@@ -88,7 +88,7 @@ img {
 
 a {
   font-size: large;
-  color: #156b12;
+  color: #000080;
   text-decoration: none;
 }
 
@@ -112,7 +112,7 @@ ul {
     "Helvetica Neue",
     sans-serif;
   font-size: 16px;
-  color: #156b12;
+  color: #000080;
 }
 
 .underline {
